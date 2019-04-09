@@ -4,13 +4,11 @@ const Task= require('../models/task');
 
 router.get('/', async(req,resp)=>{
     const tasks = await Task.find();
-    console.log(tasks);
     resp.json(tasks);
 });
 
 router.get('/:id', async(req,resp)=>{
     const tasks = await Task.findById(req.params.id);
-    console.log(tasks);
     resp.json(tasks);
 });
 

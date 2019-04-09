@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 
 class Task extends Component{
+    constructor(props){
+        super(props);
+    }
+
     render(){
         return(
             <table>
@@ -18,7 +22,13 @@ class Task extends Component{
                                 <td>{task.title}</td>
                                 <td>{task.description}</td>
                                 <td>
-                                    <button className="btn light-green darken-4"><i className="material-icons">edit</i></button>
+                                    <button
+                                    className="btn light-green darken-4"
+                                    onClick={()=>{
+                                        this.props.editTask(task._id);
+                                    }
+                                    }
+                                    ><i className="material-icons">edit</i></button>
                                     <button
                                     className="btn light-red darken-4"
                                     style={{margin:'4px'}}

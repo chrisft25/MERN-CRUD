@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import Task from './Task';
+import Card from './Card';
 
 class App extends Component{
     constructor(){
@@ -12,12 +14,27 @@ class App extends Component{
         this.addTask = this.addTask.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.deleteTask = this.deleteTask.bind(this);
+        this.editTask = this.editTask.bind(this);
+    }
+
+    componentDidMount(){
+        this.fetchTasks();
     }
 
     handleChange(inp){
         const {name, value} = inp.target;
         this.setState({
             [name]: value
+        });
+    }
+
+    fetchTasks(){
+        fetch('/api/tasks')
+        .then(res => res.json())
+        .then(data=>{
+            this.setState({
+                tasks:data
+            });
         });
     }
 
@@ -59,15 +76,7 @@ class App extends Component{
         }
     }
 
-    fetchTasks(){
-        fetch('/api/tasks')
-        .then(res => res.json())
-        .then(data=>{
-            this.setState({
-                tasks:data
-            });
-        });
-    }
+    
 
     deleteTask(id){
     if(window.confirm('Are you sure you want to delete it?')){
@@ -81,11 +90,11 @@ class App extends Component{
         .then(res=>res.json())
         .then(data=>{
             console.log(data);
-            M.toast({html: 'Task deleted'});
+            M.toast({html: 'Task Deleted'});
             this.fetchTasks();
     });
     }
-}
+    }
 
     editTask(id){
         fetch('/api/tasks/'+id)
@@ -98,86 +107,36 @@ class App extends Component{
             })
         });
     }
-    componentDidMount(){
-        this.fetchTasks();
-    }
+
     render(){
         return(
             //Navigation
             <div>
                 <nav className="light-blue darken-4">
                     <div className="container">
-                        <a className="brand-logo" href="/">MERN STACK</a>
+                        <a className="brand-logo" href="/">Task Board</a>
                     </div>
                 </nav>
 
                 <div className="container">
                     <div className="row">
                         <div className="col s5">
-                            <div className="card">
-                                <div className="card-content">
-                                    <form onSubmit={this.addTask}>
-                                        <div className="row">
-                                        <div className="input-field col s12">
-                                            <input
-                                            type="text"
-                                            placeholder="Title"
-                                            name="title"
-                                            onChange={this.handleChange}
-                                            value={this.state.title}></input>
-                                        </div>
-                                        </div>
-                                        <div className="row">
-                                        <div className="input-field col s12">
-                                            <textarea
-                                            placeholder="Description"
-                                            className="materialize-textarea"
-                                            name="description"
-                                            onChange={this.handleChange}
-                                            value={this.state.description}
-                                            ></textarea>
-                                        </div>
-                                        </div>
-                                        <button type="submit" className= "btn light-blue darken-4">Send</button>
-                                    </form>
-                                </div>
-                            </div>
+                        {/* Component Card */}
+                            <Card
+                            title={this.state.title} //Send title value saved in state.
+                            description={this.state.description} //Send description value saved in state.
+                            addTask={this.addTask} //Send addTask function to component.
+                            handleChange={this.handleChange} //Send handleChange function to component.
+                            />
                         </div>
+
                         <div className="col s7">
-                        <table>
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    this.state.tasks.map(task =>{
-                        return(
-                            <tr key={task._id}>
-                                <td>{task.title}</td>
-                                <td>{task.description}</td>
-                                <td>
-                                    <button
-                                    className="btn light-green darken-4"
-                                    onClick={()=>{
-                                        this.editTask(task._id);
-                                    }
-                                    }><i className="material-icons">edit</i></button>
-                                    <button
-                                    className="btn light-red darken-4"
-                                    style={{margin:'4px'}}
-                                    onClick={()=>{
-                                        this.deleteTask(task._id);
-                                    }}><i className="material-icons">delete</i></button>
-                                </td>
-                            </tr>
-                        )
-                    })
-                }
-            </tbody>
-        </table>
+                        {/* Component Task */}
+                            <Task
+                             tasks={this.state.tasks} //Send tasks saved in state.
+                             editTask={this.editTask}   //Send editTask function to component.
+                             deleteTask={this.deleteTask} //Send deleteTask function to component.
+                             />
                         </div>
                     </div>
                 </div>
@@ -187,4 +146,3 @@ class App extends Component{
 }
 
 export default App;
-
