@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Task from './Task';
+
 class App extends Component{
     constructor(){
         super();
