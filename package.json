@@ -1,0 +1,29 @@
+{
+  "name": "mern-crud",
+  "version": "1.0.0",
+  "description": "CRUD using MERN Stack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisft25/MERN-CRUD.git"
+  },
+  "author": "Christopher Fuentes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrisft25/MERN-CRUD/issues"
+  },
+  "homepage": "https://github.com/chrisft25/MERN-CRUD#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.5.0",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  }
+}
